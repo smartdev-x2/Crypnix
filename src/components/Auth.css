@@ -1,327 +1,308 @@
-/* Auth.css */
+/* Modern Auth Styles */
 
-/* Reset and base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body, html {
-  height: 100%;
-  overflow: hidden; /* Prevent default scroll, let container handle it if needed */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Use a common system font */
-}
-
-/* Main Auth Page Container */
 .auth-page {
-  position: relative; /* For background positioning */
-  width: 100%;
-  height: 100vh; /* Full viewport height */
+  position: relative;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  overflow: hidden; /* Ensure nothing spills out */
-  background-color: #0d1117; /* GitHub dark background color */
+  justify-content: center;
+  background: #0a0e1a;
+  overflow: hidden;
+  padding: 1rem;
 }
 
-/* Animated Background (Optional subtle elements can go here) */
-.animated-background {
+.auth-background {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1; /* Behind the auth container */
-  /* Example: Add subtle grid or lines if desired */
-  /* background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px; */
+  inset: 0;
+  overflow: hidden;
 }
 
-/* Auth Container */
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  top: -10%;
+  left: -10%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  bottom: -10%;
+  right: -10%;
+  animation-delay: -7s;
+}
+
+.orb-3 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -14s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(30px, -30px); }
+  50% { transform: translate(-20px, 20px); }
+  75% { transform: translate(20px, -20px); }
+}
+
 .auth-container {
-  position: relative; /* For z-index stacking */
-  z-index: 2; /* Above the background */
-  width: 90%;
-  max-width: 480px; /* Slightly wider for more space */
-  padding: 2rem 2.5rem; /* Increased padding */
-  background: #161b22; /* Slightly lighter than background */
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-  border: 1px solid #30363d; /* GitHub-like border */
-  color: #c9d1d9; /* GitHub text color */
-  overflow: hidden; /* Contain internal overflow */
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 480px;
+  background: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* Auth Header */
 .auth-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.auth-title {
+  font-size: 2.5rem;
+  font-weight: 800;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
-.logo-image {
-  height: 60px; /* Adjust size as needed */
-  width: auto;
-  border-radius: 8px; /* Slight rounding */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.logo-spinner {
-  width: 60px;
-  height: 60px;
-  border: 4px solid #30363d; /* Light border */
-  border-top: 4px solid #007acc; /* Blue accent */
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.app-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #58a6ff; /* GitHub blue accent */
-  margin-bottom: 0.25rem;
-  text-shadow: 0 0 10px rgba(88, 166, 255, 0.3); /* Futuristic glow */
-}
-
-.subtitle {
-  font-size: 1.1rem;
-  color: #8b949e; /* GitHub secondary text */
-  margin-bottom: 1.5rem;
-}
-
-/* Security Trust Elements */
-.security-trust {
-  background-color: #0d1117; /* Darker background */
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.85rem;
-  color: #7d8590; /* Muted text */
-  border: 1px solid #30363d;
-}
-
-.security-trust p {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.icon {
-  margin-right: 0.5rem;
-  font-size: 1rem;
-}
-
-/* Tabs */
-.auth-tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid #30363d;
-}
-
-.tab-button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  background: none;
-  color: #8b949e; /* Default color */
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
-}
-
-.tab-button.active {
-  color: #58a6ff; /* Active color */
-  border-bottom: 2px solid #58a6ff; /* Active indicator */
-}
-
-.tab-button:hover:not(.active) {
-  color: #c9d1d9;
-}
-
-/* Auth Form */
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1; /* Allow form to grow */
-}
-
-.input-group {
-  margin-bottom: 1.2rem;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #c9d1d9; /* Primary text */
+.auth-subtitle {
+  color: #9ca3af;
   font-size: 0.95rem;
   font-weight: 500;
 }
 
-.input-group input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  padding-right: 3rem; /* Space for toggle button */
-  border: 1px solid #30363d;
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.feature-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #c7d2fe;
+  transition: all 0.3s ease;
+}
+
+.feature-badge svg {
+  flex-shrink: 0;
+}
+
+.auth-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  background: rgba(17, 24, 39, 0.6);
+  border-radius: 12px;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.tab-button {
+  position: relative;
+  z-index: 2;
+  padding: 0.75rem;
+  background: transparent;
+  border: none;
   border-radius: 8px;
-  background: #0d1117; /* Darker input background */
-  color: #c9d1d9;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.input-group input:focus {
-  border-color: #58a6ff; /* Focus color */
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2); /* Focus glow */
+.tab-button.active {
+  color: white;
 }
 
-/* Password Input Container */
-.password-input-container {
+.tab-indicator {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: calc(50% - 0.5rem);
+  height: calc(100% - 1rem);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-label {
+  color: #e5e7eb;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.input-container {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.password-strength-indicator {
-  position: absolute;
-  right: 40px; /* Position to the left of the toggle button */
-  background: #0d1117;
-  padding: 0 0.25rem;
-  z-index: 2; /* Ensure it's above the input border */
+.input-field {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
 }
 
-.strength {
-  font-size: 0.75rem;
-  font-weight: 500;
+.input-field.input-with-icon {
+  padding-left: 3rem;
 }
 
-.strength.weak { color: #f85149; } /* Red */
-.strength.medium { color: #d29922; } /* Yellow/Orange */
-.strength.strong { color: #23a942; } /* Green */
+.input-field:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
 
-.toggle-password-button {
+.input-field.input-error {
+  border-color: #ef4444;
+}
+
+.input-icon {
   position: absolute;
-  right: 10px; /* Position inside the input field */
+  left: 1rem;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 1rem;
   background: none;
   border: none;
-  color: #58a6ff; /* Blue accent */
+  color: #9ca3af;
   cursor: pointer;
-  font-size: 1.1rem;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  transition: background 0.2s ease;
-}
-
-.toggle-password-button:hover {
-  background: rgba(88, 166, 255, 0.1);
-}
-
-.password-requirements {
-  font-size: 0.75rem;
-  color: #8b949e;
-  margin-top: 0.25rem;
-}
-
-/* Terms Group */
-.terms-group {
-  margin-bottom: 1.5rem;
-}
-
-.checkbox-label {
+  padding: 0.25rem;
   display: flex;
-  align-items: flex-start; /* Align to top */
-  cursor: pointer;
-  font-size: 0.85rem;
-  color: #c9d1d9;
-  margin-bottom: 0.5rem;
+  align-items: center;
+  transition: color 0.3s ease;
 }
 
-.checkbox-label input[type="checkbox"] {
-  opacity: 0;
-  position: absolute;
-  width: 0;
-  height: 0;
+.password-toggle:hover {
+  color: #667eea;
 }
 
-.checkmark {
-  height: 16px;
-  width: 16px;
-  background-color: #0d1117;
-  border: 1px solid #30363d;
-  border-radius: 3px;
-  margin-right: 0.5rem;
-  flex-shrink: 0; /* Don't shrink */
-  transition: all 0.3s ease;
-  position: relative; /* For the checkmark */
-  top: 2px; /* Align vertically */
-}
-
-.checkbox-label input[type="checkbox"]:checked ~ .checkmark {
-  background-color: #58a6ff;
-  border-color: #58a6ff;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-  left: 5px;
-  top: 1px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.checkbox-label input[type="checkbox"]:checked ~ .checkmark:after {
-  display: block;
-}
-
-.checkbox-label a {
-  color: #58a6ff;
-  text-decoration: none;
-}
-
-.checkbox-label a:hover {
-  text-decoration: underline;
-}
-
-.risk-warning {
+.input-error-message {
+  color: #ef4444;
   font-size: 0.8rem;
-  color: #f85149; /* Red warning color */
-  margin-top: 0.25rem;
-  padding-left: 21px; /* Align with text after checkbox */
+  margin-top: -0.25rem;
 }
 
-/* Auth Button */
-.auth-button {
+.phone-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.phone-icon {
+  position: absolute;
+  left: 1rem;
+  color: #9ca3af;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.phone-input-container .react-international-phone-input-container {
+  width: 100%;
+}
+
+.phone-input-container .react-international-phone-input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.phone-input-container .react-international-phone-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.phone-input-container .react-international-phone-country-selector-button {
+  background: transparent;
+  border: none;
+  padding-left: 3rem;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   width: 100%;
   padding: 1rem;
-  margin-top: 0.5rem;
-  background: linear-gradient(90deg, #007acc, #005a9e); /* GitHub-like blue gradient */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   color: white;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+  transition: all 0.3s ease;
   position: relative;
-  overflow: hidden; /* Contain the glow effect */
+  overflow: hidden;
 }
 
-.auth-button::before {
+.button::before {
   content: '';
   position: absolute;
   top: 0;
@@ -329,523 +310,159 @@ body, html {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-  z-index: 1;
+  transition: left 0.5s ease;
 }
 
-.auth-button:hover::before {
+.button:hover::before {
   left: 100%;
 }
 
-.auth-button:hover {
-  box-shadow: 0 0 15px rgba(0, 122, 204, 0.5); /* Glow on hover */
-  transform: scale(1.02);
-  background: linear-gradient(90deg, #005a9e, #007acc); /* Reverse gradient on hover */
-}
-
-.auth-button:disabled {
-  background: #30363d;
+.button:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
-.loading-text {
-  position: relative;
-  z-index: 2; /* Ensure text is above the glow animation */
+.button-loader {
+  display: flex;
+  align-items: center;
 }
 
-/* Trust Pilot Link */
-.trustpilot-link {
+.auth-footer {
   text-align: center;
-  margin-top: 1rem;
-  font-size: 0.8rem;
-  color: #8b949e;
+  color: #9ca3af;
+  font-size: 0.9rem;
 }
 
-.trustpilot-link a {
-  color: #58a6ff;
-  text-decoration: none;
-}
-
-.trustpilot-link a:hover {
-  text-decoration: underline;
-}
-
-/* Toast Messages */
-.toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 0.8rem 1.2rem;
-  border-radius: 8px;
-  color: white;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  opacity: 0;
-  transform: translateX(100%);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.toast.success {
-  background: linear-gradient(90deg, #23a942, #20c997);
-}
-
-.toast.error {
-  background: linear-gradient(90deg, #f85149, #e74c3c);
-}
-
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  .auth-container {
-    width: 95%;
-    padding: 1.5rem;
-  }
-
-  .app-title {
-    font-size: 1.6rem;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-  }
-
-  .input-group input,
-  .auth-button {
-    font-size: 0.95rem;
-  }
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}/* Auth.css */
-
-/* Reset and base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body, html {
-  height: 100%;
-  overflow: hidden; /* Prevent default scroll, let container handle it if needed */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Use a common system font */
-}
-
-/* Main Auth Page Container */
-.auth-page {
-  position: relative; /* For background positioning */
-  width: 100%;
-  height: 100vh; /* Full viewport height */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Ensure nothing spills out */
-  background-color: #0d1117; /* GitHub dark background color */
-}
-
-/* Animated Background (Optional subtle elements can go here) */
-.animated-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1; /* Behind the auth container */
-  /* Example: Add subtle grid or lines if desired */
-  /* background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px; */
-}
-
-/* Auth Container */
-.auth-container {
-  position: relative; /* For z-index stacking */
-  z-index: 2; /* Above the background */
-  width: 90%;
-  max-width: 480px; /* Slightly wider for more space */
-  padding: 2rem 2.5rem; /* Increased padding */
-  background: #161b22; /* Slightly lighter than background */
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-  border: 1px solid #30363d; /* GitHub-like border */
-  color: #c9d1d9; /* GitHub text color */
-  overflow: hidden; /* Contain internal overflow */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Auth Header */
-.auth-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.logo-image {
-  height: 60px; /* Adjust size as needed */
-  width: auto;
-  border-radius: 8px; /* Slight rounding */
-}
-
-.logo-spinner {
-  width: 60px;
-  height: 60px;
-  border: 4px solid #30363d; /* Light border */
-  border-top: 4px solid #007acc; /* Blue accent */
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.app-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #58a6ff; /* GitHub blue accent */
-  margin-bottom: 0.25rem;
-  text-shadow: 0 0 10px rgba(88, 166, 255, 0.3); /* Futuristic glow */
-}
-
-.subtitle {
-  font-size: 1.1rem;
-  color: #8b949e; /* GitHub secondary text */
-  margin-bottom: 1.5rem;
-}
-
-/* Security Trust Elements */
-.security-trust {
-  background-color: #0d1117; /* Darker background */
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.85rem;
-  color: #7d8590; /* Muted text */
-  border: 1px solid #30363d;
-}
-
-.security-trust p {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.icon {
-  margin-right: 0.5rem;
-  font-size: 1rem;
-}
-
-/* Tabs */
-.auth-tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid #30363d;
-}
-
-.tab-button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  background: none;
-  color: #8b949e; /* Default color */
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
-}
-
-.tab-button.active {
-  color: #58a6ff; /* Active color */
-  border-bottom: 2px solid #58a6ff; /* Active indicator */
-}
-
-.tab-button:hover:not(.active) {
-  color: #c9d1d9;
-}
-
-/* Auth Form */
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1; /* Allow form to grow */
-}
-
-.input-group {
-  margin-bottom: 1.2rem;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #c9d1d9; /* Primary text */
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  padding-right: 3rem; /* Space for toggle button */
-  border: 1px solid #30363d;
-  border-radius: 8px;
-  background: #0d1117; /* Darker input background */
-  color: #c9d1d9;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.input-group input:focus {
-  border-color: #58a6ff; /* Focus color */
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2); /* Focus glow */
-}
-
-/* Password Input Container */
-.password-input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.password-strength-indicator {
-  position: absolute;
-  right: 40px; /* Position to the left of the toggle button */
-  background: #0d1117;
-  padding: 0 0.25rem;
-  z-index: 2; /* Ensure it's above the input border */
-}
-
-.strength {
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.strength.weak { color: #f85149; } /* Red */
-.strength.medium { color: #d29922; } /* Yellow/Orange */
-.strength.strong { color: #23a942; } /* Green */
-
-.toggle-password-button {
-  position: absolute;
-  right: 10px; /* Position inside the input field */
+.auth-link {
   background: none;
   border: none;
-  color: #58a6ff; /* Blue accent */
-  cursor: pointer;
-  font-size: 1.1rem;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  transition: background 0.2s ease;
-}
-
-.toggle-password-button:hover {
-  background: rgba(88, 166, 255, 0.1);
-}
-
-.password-requirements {
-  font-size: 0.75rem;
-  color: #8b949e;
-  margin-top: 0.25rem;
-}
-
-/* Terms Group */
-.terms-group {
-  margin-bottom: 1.5rem;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: flex-start; /* Align to top */
-  cursor: pointer;
-  font-size: 0.85rem;
-  color: #c9d1d9;
-  margin-bottom: 0.5rem;
-}
-
-.checkbox-label input[type="checkbox"] {
-  opacity: 0;
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-
-.checkmark {
-  height: 16px;
-  width: 16px;
-  background-color: #0d1117;
-  border: 1px solid #30363d;
-  border-radius: 3px;
-  margin-right: 0.5rem;
-  flex-shrink: 0; /* Don't shrink */
-  transition: all 0.3s ease;
-  position: relative; /* For the checkmark */
-  top: 2px; /* Align vertically */
-}
-
-.checkbox-label input[type="checkbox"]:checked ~ .checkmark {
-  background-color: #58a6ff;
-  border-color: #58a6ff;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-  left: 5px;
-  top: 1px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.checkbox-label input[type="checkbox"]:checked ~ .checkmark:after {
-  display: block;
-}
-
-.checkbox-label a {
-  color: #58a6ff;
-  text-decoration: none;
-}
-
-.checkbox-label a:hover {
-  text-decoration: underline;
-}
-
-.risk-warning {
-  font-size: 0.8rem;
-  color: #f85149; /* Red warning color */
-  margin-top: 0.25rem;
-  padding-left: 21px; /* Align with text after checkbox */
-}
-
-/* Auth Button */
-.auth-button {
-  width: 100%;
-  padding: 1rem;
-  margin-top: 0.5rem;
-  background: linear-gradient(90deg, #007acc, #005a9e); /* GitHub-like blue gradient */
-  border: none;
-  border-radius: 8px;
-  color: white;
+  color: #667eea;
   font-weight: 600;
-  font-size: 1rem;
   cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
-  position: relative;
-  overflow: hidden; /* Contain the glow effect */
+  transition: color 0.3s ease;
 }
 
-.auth-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-  z-index: 1;
-}
-
-.auth-button:hover::before {
-  left: 100%;
-}
-
-.auth-button:hover {
-  box-shadow: 0 0 15px rgba(0, 122, 204, 0.5); /* Glow on hover */
-  transform: scale(1.02);
-  background: linear-gradient(90deg, #005a9e, #007acc); /* Reverse gradient on hover */
-}
-
-.auth-button:disabled {
-  background: #30363d;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.loading-text {
-  position: relative;
-  z-index: 2; /* Ensure text is above the glow animation */
-}
-
-/* Trust Pilot Link */
-.trustpilot-link {
-  text-align: center;
-  margin-top: 1rem;
-  font-size: 0.8rem;
-  color: #8b949e;
-}
-
-.trustpilot-link a {
-  color: #58a6ff;
-  text-decoration: none;
-}
-
-.trustpilot-link a:hover {
+.auth-link:hover {
+  color: #764ba2;
   text-decoration: underline;
 }
 
-/* Toast Messages */
 .toast {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 0.8rem 1.2rem;
-  border-radius: 8px;
-  color: white;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   z-index: 1000;
-  opacity: 0;
-  transform: translateX(100%);
-  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.toast.show {
-  opacity: 1;
-  transform: translateX(0);
+.toast-success {
+  border-left: 3px solid #10b981;
 }
 
-.toast.success {
-  background: linear-gradient(90deg, #23a942, #20c997);
+.toast-error {
+  border-left: 3px solid #ef4444;
 }
 
-.toast.error {
-  background: linear-gradient(90deg, #f85149, #e74c3c);
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-/* Responsive adjustments */
-@media (max-width: 480px) {
+.toast-icon {
+  flex-shrink: 0;
+}
+
+.toast-success .toast-icon {
+  color: #10b981;
+}
+
+.toast-error .toast-icon {
+  color: #ef4444;
+}
+
+.toast-message {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.toast-close:hover {
+  color: white;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
   .auth-container {
-    width: 95%;
     padding: 1.5rem;
+    border-radius: 20px;
   }
 
-  .app-title {
-    font-size: 1.6rem;
+  .auth-title {
+    font-size: 2rem;
   }
 
-  .subtitle {
-    font-size: 1rem;
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
 
-  .input-group input,
-  .auth-button {
-    font-size: 0.95rem;
+  .feature-badge {
+    font-size: 0.8rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .toast {
+    right: 1rem;
+    left: 1rem;
+    top: 1rem;
+  }
+
+  .orb-1,
+  .orb-2,
+  .orb-3 {
+    filter: blur(60px);
   }
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 0.5rem;
+  }
+
+  .auth-container {
+    padding: 1.25rem;
+  }
+
+  .auth-title {
+    font-size: 1.75rem;
+  }
+
+  .auth-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .input-field,
+  .button {
+    font-size: 0.9rem;
+  }
 }
