@@ -32,6 +32,8 @@ elements.miningToggle.addEventListener('click', toggleMining);
 elements.algorithm.addEventListener('change', () => {
     if (isMining) {
         updateHashRates();
+        updateDisplay();
+        updateChart();
     }
 });
 
@@ -57,6 +59,7 @@ function startMining() {
     miningInterval = setInterval(() => {
         updateHashRates();
         updateEarnings();
+        updateDisplay();
         updateWorkerDisplay();
         updateChart();
     }, 1000);
