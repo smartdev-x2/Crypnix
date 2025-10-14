@@ -10,6 +10,7 @@
 body, html {
   height: 100%;
   overflow: hidden; /* Prevent default scroll, let container handle it if needed */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Use a common system font */
 }
 
 /* Main Auth Page Container */
@@ -21,9 +22,10 @@ body, html {
   justify-content: center;
   align-items: center;
   overflow: hidden; /* Ensure nothing spills out */
+  background-color: #0d1117; /* GitHub dark background color */
 }
 
-/* Animated Background */
+/* Animated Background (Optional subtle elements can go here) */
 .animated-background {
   position: absolute;
   top: 0;
@@ -31,44 +33,27 @@ body, html {
   width: 100%;
   height: 100%;
   z-index: 1; /* Behind the auth container */
-  /* Use a dark gradient background */
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  /* Example: Add subtle grid or lines if desired */
+  /* background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px; */
 }
 
-/* Falling Coin Animation */
-.falling-coin {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  opacity: 0.7;
-  animation: fall linear infinite;
-  /* Random starting positions and animation durations */
-  left: calc(100% * var(--start-x));
-  top: -30px;
-  animation-duration: calc(5s + var(--duration) * 10s);
-  animation-delay: calc(var(--delay) * -1s);
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(100vh) rotate(360deg);
-  }
-}
-
-/* Auth Container (Glass Effect) */
+/* Auth Container */
 .auth-container {
   position: relative; /* For z-index stacking */
   z-index: 2; /* Above the background */
   width: 90%;
-  max-width: 420px;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.1); /* Light transparency */
-  backdrop-filter: blur(10px); /* Glass effect */
+  max-width: 480px; /* Slightly wider for more space */
+  padding: 2rem 2.5rem; /* Increased padding */
+  background: #161b22; /* Slightly lighter than background */
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: white; /* Default text color */
+  border: 1px solid #30363d; /* GitHub-like border */
+  color: #c9d1d9; /* GitHub text color */
   overflow: hidden; /* Contain internal overflow */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Auth Header */
@@ -77,10 +62,62 @@ body, html {
   margin-bottom: 1.5rem;
 }
 
-.auth-header h1 {
-  font-size: 1.8rem;
-  color: #00ffff; /* Neon blue */
-  text-shadow: 0 0 8px rgba(0,255,255,0.8);
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.logo-image {
+  height: 60px; /* Adjust size as needed */
+  width: auto;
+  border-radius: 8px; /* Slight rounding */
+}
+
+.logo-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #30363d; /* Light border */
+  border-top: 4px solid #007acc; /* Blue accent */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.app-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #58a6ff; /* GitHub blue accent */
+  margin-bottom: 0.25rem;
+  text-shadow: 0 0 10px rgba(88, 166, 255, 0.3); /* Futuristic glow */
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #8b949e; /* GitHub secondary text */
+  margin-bottom: 1.5rem;
+}
+
+/* Security Trust Elements */
+.security-trust {
+  background-color: #0d1117; /* Darker background */
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: #7d8590; /* Muted text */
+  border: 1px solid #30363d;
+}
+
+.security-trust p {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.icon {
+  margin-right: 0.5rem;
+  font-size: 1rem;
 }
 
 /* Tabs */
@@ -88,14 +125,14 @@ body, html {
   display: flex;
   justify-content: center;
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid #30363d;
 }
 
 .tab-button {
   padding: 0.75rem 1.5rem;
   border: none;
   background: none;
-  color: #aaa; /* Default color */
+  color: #8b949e; /* Default color */
   cursor: pointer;
   font-size: 1rem;
   font-weight: 500;
@@ -103,18 +140,19 @@ body, html {
 }
 
 .tab-button.active {
-  color: #00ffff; /* Active color */
-  border-bottom: 2px solid #00ffff; /* Active indicator */
+  color: #58a6ff; /* Active color */
+  border-bottom: 2px solid #58a6ff; /* Active indicator */
 }
 
 .tab-button:hover:not(.active) {
-  color: #ccc;
+  color: #c9d1d9;
 }
 
 /* Auth Form */
 .auth-form {
   display: flex;
   flex-direction: column;
+  flex-grow: 1; /* Allow form to grow */
 }
 
 .input-group {
@@ -124,28 +162,27 @@ body, html {
 .input-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #ccc;
-  font-size: 0.9rem;
+  color: #c9d1d9; /* Primary text */
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
-.input-group input,
-.react-international-phone-input-container input { /* Target the phone input's internal input */
+.input-group input {
   width: 100%;
   padding: 0.8rem 1rem;
   padding-right: 3rem; /* Space for toggle button */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #30363d;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: #0d1117; /* Darker input background */
+  color: #c9d1d9;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.input-group input:focus,
-.react-international-phone-input-container input:focus {
-  border-color: #00ffff; /* Focus color */
-  background: rgba(0, 255, 255, 0.1);
+.input-group input:focus {
+  border-color: #58a6ff; /* Focus color */
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2); /* Focus glow */
 }
 
 /* Password Input Container */
@@ -155,21 +192,116 @@ body, html {
   align-items: center;
 }
 
+.password-strength-indicator {
+  position: absolute;
+  right: 40px; /* Position to the left of the toggle button */
+  background: #0d1117;
+  padding: 0 0.25rem;
+  z-index: 2; /* Ensure it's above the input border */
+}
+
+.strength {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.strength.weak { color: #f85149; } /* Red */
+.strength.medium { color: #d29922; } /* Yellow/Orange */
+.strength.strong { color: #23a942; } /* Green */
+
 .toggle-password-button {
   position: absolute;
   right: 10px; /* Position inside the input field */
   background: none;
   border: none;
-  color: #00ffff; /* Neon blue */
+  color: #58a6ff; /* Blue accent */
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   transition: background 0.2s ease;
 }
 
 .toggle-password-button:hover {
-  background: rgba(0, 255, 255, 0.1);
+  background: rgba(88, 166, 255, 0.1);
+}
+
+.password-requirements {
+  font-size: 0.75rem;
+  color: #8b949e;
+  margin-top: 0.25rem;
+}
+
+/* Terms Group */
+.terms-group {
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start; /* Align to top */
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  height: 16px;
+  width: 16px;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  flex-shrink: 0; /* Don't shrink */
+  transition: all 0.3s ease;
+  position: relative; /* For the checkmark */
+  top: 2px; /* Align vertically */
+}
+
+.checkbox-label input[type="checkbox"]:checked ~ .checkmark {
+  background-color: #58a6ff;
+  border-color: #58a6ff;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-label input[type="checkbox"]:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-label a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.checkbox-label a:hover {
+  text-decoration: underline;
+}
+
+.risk-warning {
+  font-size: 0.8rem;
+  color: #f85149; /* Red warning color */
+  margin-top: 0.25rem;
+  padding-left: 21px; /* Align with text after checkbox */
 }
 
 /* Auth Button */
@@ -177,25 +309,66 @@ body, html {
   width: 100%;
   padding: 1rem;
   margin-top: 0.5rem;
-  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  background: linear-gradient(90deg, #007acc, #005a9e); /* GitHub-like blue gradient */
   border: none;
   border-radius: 8px;
   color: white;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+  position: relative;
+  overflow: hidden; /* Contain the glow effect */
+}
+
+.auth-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+  z-index: 1;
+}
+
+.auth-button:hover::before {
+  left: 100%;
 }
 
 .auth-button:hover {
-  box-shadow: 0 0 15px rgba(0,198,255,0.5);
+  box-shadow: 0 0 15px rgba(0, 122, 204, 0.5); /* Glow on hover */
   transform: scale(1.02);
+  background: linear-gradient(90deg, #005a9e, #007acc); /* Reverse gradient on hover */
 }
 
 .auth-button:disabled {
-  background: #555;
+  background: #30363d;
   cursor: not-allowed;
   opacity: 0.7;
+}
+
+.loading-text {
+  position: relative;
+  z-index: 2; /* Ensure text is above the glow animation */
+}
+
+/* Trust Pilot Link */
+.trustpilot-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #8b949e;
+}
+
+.trustpilot-link a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.trustpilot-link a:hover {
+  text-decoration: underline;
 }
 
 /* Toast Messages */
@@ -220,16 +393,459 @@ body, html {
 }
 
 .toast.success {
-  background: linear-gradient(90deg, #28a745, #20c997);
+  background: linear-gradient(90deg, #23a942, #20c997);
 }
 
 .toast.error {
-  background: linear-gradient(90deg, #dc3545, #e74c3c);
+  background: linear-gradient(90deg, #f85149, #e74c3c);
 }
 
 /* Responsive adjustments */
-@media (min-width: 480px) {
+@media (max-width: 480px) {
   .auth-container {
-    padding: 2.5rem;
+    width: 95%;
+    padding: 1.5rem;
   }
+
+  .app-title {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .input-group input,
+  .auth-button {
+    font-size: 0.95rem;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}/* Auth.css */
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  overflow: hidden; /* Prevent default scroll, let container handle it if needed */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Use a common system font */
+}
+
+/* Main Auth Page Container */
+.auth-page {
+  position: relative; /* For background positioning */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensure nothing spills out */
+  background-color: #0d1117; /* GitHub dark background color */
+}
+
+/* Animated Background (Optional subtle elements can go here) */
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Behind the auth container */
+  /* Example: Add subtle grid or lines if desired */
+  /* background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px; */
+}
+
+/* Auth Container */
+.auth-container {
+  position: relative; /* For z-index stacking */
+  z-index: 2; /* Above the background */
+  width: 90%;
+  max-width: 480px; /* Slightly wider for more space */
+  padding: 2rem 2.5rem; /* Increased padding */
+  background: #161b22; /* Slightly lighter than background */
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  border: 1px solid #30363d; /* GitHub-like border */
+  color: #c9d1d9; /* GitHub text color */
+  overflow: hidden; /* Contain internal overflow */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Auth Header */
+.auth-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.logo-image {
+  height: 60px; /* Adjust size as needed */
+  width: auto;
+  border-radius: 8px; /* Slight rounding */
+}
+
+.logo-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #30363d; /* Light border */
+  border-top: 4px solid #007acc; /* Blue accent */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.app-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #58a6ff; /* GitHub blue accent */
+  margin-bottom: 0.25rem;
+  text-shadow: 0 0 10px rgba(88, 166, 255, 0.3); /* Futuristic glow */
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #8b949e; /* GitHub secondary text */
+  margin-bottom: 1.5rem;
+}
+
+/* Security Trust Elements */
+.security-trust {
+  background-color: #0d1117; /* Darker background */
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: #7d8590; /* Muted text */
+  border: 1px solid #30363d;
+}
+
+.security-trust p {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.icon {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Tabs */
+.auth-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #30363d;
+}
+
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: none;
+  color: #8b949e; /* Default color */
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.tab-button.active {
+  color: #58a6ff; /* Active color */
+  border-bottom: 2px solid #58a6ff; /* Active indicator */
+}
+
+.tab-button:hover:not(.active) {
+  color: #c9d1d9;
+}
+
+/* Auth Form */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allow form to grow */
+}
+
+.input-group {
+  margin-bottom: 1.2rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #c9d1d9; /* Primary text */
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  padding-right: 3rem; /* Space for toggle button */
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  background: #0d1117; /* Darker input background */
+  color: #c9d1d9;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #58a6ff; /* Focus color */
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2); /* Focus glow */
+}
+
+/* Password Input Container */
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-strength-indicator {
+  position: absolute;
+  right: 40px; /* Position to the left of the toggle button */
+  background: #0d1117;
+  padding: 0 0.25rem;
+  z-index: 2; /* Ensure it's above the input border */
+}
+
+.strength {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.strength.weak { color: #f85149; } /* Red */
+.strength.medium { color: #d29922; } /* Yellow/Orange */
+.strength.strong { color: #23a942; } /* Green */
+
+.toggle-password-button {
+  position: absolute;
+  right: 10px; /* Position inside the input field */
+  background: none;
+  border: none;
+  color: #58a6ff; /* Blue accent */
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.toggle-password-button:hover {
+  background: rgba(88, 166, 255, 0.1);
+}
+
+.password-requirements {
+  font-size: 0.75rem;
+  color: #8b949e;
+  margin-top: 0.25rem;
+}
+
+/* Terms Group */
+.terms-group {
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start; /* Align to top */
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  height: 16px;
+  width: 16px;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  flex-shrink: 0; /* Don't shrink */
+  transition: all 0.3s ease;
+  position: relative; /* For the checkmark */
+  top: 2px; /* Align vertically */
+}
+
+.checkbox-label input[type="checkbox"]:checked ~ .checkmark {
+  background-color: #58a6ff;
+  border-color: #58a6ff;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-label input[type="checkbox"]:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-label a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.checkbox-label a:hover {
+  text-decoration: underline;
+}
+
+.risk-warning {
+  font-size: 0.8rem;
+  color: #f85149; /* Red warning color */
+  margin-top: 0.25rem;
+  padding-left: 21px; /* Align with text after checkbox */
+}
+
+/* Auth Button */
+.auth-button {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(90deg, #007acc, #005a9e); /* GitHub-like blue gradient */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+  position: relative;
+  overflow: hidden; /* Contain the glow effect */
+}
+
+.auth-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+  z-index: 1;
+}
+
+.auth-button:hover::before {
+  left: 100%;
+}
+
+.auth-button:hover {
+  box-shadow: 0 0 15px rgba(0, 122, 204, 0.5); /* Glow on hover */
+  transform: scale(1.02);
+  background: linear-gradient(90deg, #005a9e, #007acc); /* Reverse gradient on hover */
+}
+
+.auth-button:disabled {
+  background: #30363d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.loading-text {
+  position: relative;
+  z-index: 2; /* Ensure text is above the glow animation */
+}
+
+/* Trust Pilot Link */
+.trustpilot-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #8b949e;
+}
+
+.trustpilot-link a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.trustpilot-link a:hover {
+  text-decoration: underline;
+}
+
+/* Toast Messages */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast.success {
+  background: linear-gradient(90deg, #23a942, #20c997);
+}
+
+.toast.error {
+  background: linear-gradient(90deg, #f85149, #e74c3c);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .auth-container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .app-title {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .input-group input,
+  .auth-button {
+    font-size: 0.95rem;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
