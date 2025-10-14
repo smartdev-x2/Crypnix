@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypnix - Crypto Mining Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>🔷 Crypnix</h1>
+                <p class="tagline">Professional Crypto Mining Platform</p>
+            </div>
+            <div class="wallet-info">
+                <div class="balance">
+                    <span class="label">Total Balance</span>
+                    <span class="amount" id="totalBalance">0.00000000 BTC</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">⛏️</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Hash Rate</p>
+                        <p class="stat-value" id="hashRate">0 MH/s</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Earnings Today</p>
+                        <p class="stat-value" id="earningsToday">0.00000000 BTC</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Active Workers</p>
+                        <p class="stat-value" id="activeWorkers">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Power Usage</p>
+                        <p class="stat-value" id="powerUsage">0 W</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mining-control">
+                <div class="control-panel">
+                    <h2>Mining Control</h2>
+                    <div class="status-indicator">
+                        <span class="status-dot" id="statusDot"></span>
+                        <span id="miningStatus">Stopped</span>
+                    </div>
+                    <button id="miningToggle" class="btn-primary">Start Mining</button>
+                </div>
+                <div class="algorithm-selector">
+                    <h3>Algorithm</h3>
+                    <select id="algorithm">
+                        <option value="sha256">SHA-256 (Bitcoin)</option>
+                        <option value="ethash">Ethash (Ethereum)</option>
+                        <option value="randomx">RandomX (Monero)</option>
+                        <option value="equihash">Equihash (Zcash)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2>Hash Rate History</h2>
+                <canvas id="hashRateChart"></canvas>
+            </div>
+
+            <div class="workers-section">
+                <h2>Mining Workers</h2>
+                <div class="workers-list" id="workersList">
+                    <div class="worker-card">
+                        <div class="worker-name">Worker #1</div>
+                        <div class="worker-stats">
+                            <span>GPU: NVIDIA RTX 3080</span>
+                            <span>Hash: 0 MH/s</span>
+                            <span>Temp: 0°C</span>
+                        </div>
+                    </div>
+                    <div class="worker-card">
+                        <div class="worker-name">Worker #2</div>
+                        <div class="worker-stats">
+                            <span>GPU: AMD RX 6800 XT</span>
+                            <span>Hash: 0 MH/s</span>
+                            <span>Temp: 0°C</span>
+                        </div>
+                    </div>
+                    <div class="worker-card">
+                        <div class="worker-name">Worker #3</div>
+                        <div class="worker-stats">
+                            <span>GPU: NVIDIA RTX 3070</span>
+                            <span>Hash: 0 MH/s</span>
+                            <span>Temp: 0°C</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Crypnix Mining Platform. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
