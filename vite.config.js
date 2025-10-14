@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    port: 5000,
     allowedHosts: ['.replit.dev', '.repl.co'], // allow replit preview
   },
 })
