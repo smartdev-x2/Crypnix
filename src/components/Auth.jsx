@@ -1,324 +1,361 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, User, Phone, Gift, Shield, Zap, TrendingUp } from 'lucide-react';
-import { PhoneInput } from 'react-international-phone';
-import 'react-international-phone/style.css';
-
-import Input from './ui/Input';
-import Button from './ui/Button';
-import Toast from './ui/Toast';
-import { useAuth } from '../hooks/useAuth';
-import { useFormValidation } from '../hooks/useFormValidation';
-import './Auth.css';
+import './Auth.css'; // Import the specific styles for Auth
+import supabase from './supabaseClient'; // Import the Supabase client
+import logo from '../assets/logo.png'; // Import the logo image
+import toast from 'react-hot-toast'
+// SVG for the coin (example - you can use a more detailed one)
+const CoinIcon = ({ className }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="12" cy="12" r="10" stroke="#FFD700" strokeWidth="2" />
+    <path d="M12 6v12M8 9l4 3 4-3" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
 
 const Auth = () => {
-  const [activeTab, setActiveTab] = useState('login');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-    referralCode: '',
-  });
+  const [activeTab, setActiveTab] = useState('register'); // 'login' or 'register'
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState(''); // State for phone number
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [referralCode, setReferralCode] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
+  const [agreeTerms, setAgreeTerms] = useState(false); // State for terms agreement
+  const [passwordStrength, setPasswordStrength] = useState(''); // State for password strength
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' }); // For toast messages
 
-  const { loading, toast, login, register, closeToast } = useAuth();
-  const { errors, validateField, clearError, clearAllErrors } = useFormValidation();
+  // Function to calculate password strength (simple example)
+  const calculatePasswordStrength = (pwd) => {
+    if (pwd.length === 0) return '';
+    if (pwd.length < 8) return 'Too Short';
+    let strength = 0;
+    if (/[A-Z]/.test(pwd)) strength++;
+    if (/[a-z]/.test(pwd)) strength++;
+    if (/[0-9]/.test(pwd)) strength++;
+    if (/[^A-Za-z0-9]/.test(pwd)) strength++;
+    if (strength < 2) return 'Weak';
+    if (strength < 3) return 'Medium';
+    return 'Strong';
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setPasswordStrength(calculatePasswordStrength(newPassword));
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
 
   const handleTabSwitch = (tab) => {
     setActiveTab(tab);
-    clearAllErrors();
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirmPassword: '',
-      referralCode: '',
-    });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    clearError(name);
-  };
-
-  const handlePhoneChange = (value) => {
-    setFormData(prev => ({ ...prev, phone: value }));
-    clearError('phone');
+    setMessage({ type: '', text: '' }); // Clear message on tab switch
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    let isValid = true;
+    setLoading(true);
+    setMessage({ type: '', text: '' });
 
+    // Basic validation for registration
     if (activeTab === 'register') {
-      isValid = validateField('name', formData.name) && isValid;
-      isValid = validateField('email', formData.email) && isValid;
-      isValid = validateField('phone', formData.phone) && isValid;
-      isValid = validateField('password', formData.password) && isValid;
-      isValid = validateField('confirmPassword', formData.confirmPassword, formData.password) && isValid;
-    } else {
-      isValid = validateField('email', formData.email) && isValid;
-      isValid = validateField('password', formData.password) && isValid;
+      if (!agreeTerms) {
+        setMessage({ type: 'error', text: 'You must agree to the Terms of Service and Privacy Policy.' });
+        setLoading(false);
+        return;
+      }
+      if (password !== confirmPassword) {
+        setMessage({ type: 'error', text: 'Passwords do not match!' });
+        setLoading(false);
+        return;
+      }
+      if (password.length < 8) { // Updated min length requirement
+        setMessage({ type: 'error', text: 'Password must be at least 8 characters.' });
+        setLoading(false);
+        return;
+      }
     }
 
-    if (!isValid) return;
-
-    if (activeTab === 'login') {
-      const result = await login({
-        email: formData.email,
-        password: formData.password,
-      });
-      
-      if (result.success) {
-        console.log('Login successful:', result.data);
-      }
-    } else {
-      const result = await register({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password,
-        referralCode: formData.referralCode,
-      });
-      
-      if (result.success) {
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          password: '',
-          confirmPassword: '',
-          referralCode: '',
+    try {
+      if (activeTab === 'login') {
+        // Sign in with Supabase Auth
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
         });
+
+        if (error) {
+          setMessage({ type: 'error', text: error.message });
+        } else {
+          // Login successful
+          setMessage({ type: 'success', text: 'Login successful!' });
+          // Optionally redirect or clear form here after success
+          // window.location.href = '/dashboard'; // Or use React Router
+        }
+      } else if (activeTab === 'register') {
+        // Sign up with Supabase Auth
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              name: name,
+              phone: phone,
+              // We cannot store referral_code or referred_by_id here
+              // because Supabase Auth user metadata is separate from our custom users table.
+              // We need to insert into our 'users' table *after* successful auth.
+            }
+          }
+        });
+
+        if (authError) {
+          setMessage({ type: 'error', text: authError.message });
+        } else {
+          // Supabase Auth successful (user created in Auth system)
+          // Now, insert user details into our custom 'users' table
+          const userId = authData.user.id; // Get the new user's ID from Supabase Auth
+          // Generate a unique referral ID for the new user (simple example using crypto.randomUUID)
+          // In a real app, you might want a more robust ID generation strategy.
+          const newReferralId = crypto.randomUUID().substring(0, 8); // Example: use first 8 chars
+
+          const { error: insertError } = await supabase
+              .from('users')
+              .insert([
+                {
+                  id: userId, // Use the ID from Supabase Auth
+                  name: name,
+                  email: email,
+                  phone: phone,
+                  referral_id: newReferralId, // Generated unique ID
+                  referred_by: null // For now, set to null. You would need to implement referral code checking here.
+                }
+              ]);
+
+          if (insertError) {
+            console.error('Error inserting into users table:', insertError);
+            // If inserting into custom table fails, the user might be partially created.
+            // You might want to handle this differently (e.g., rollback auth, show specific message).
+            setMessage({ type: 'error', text: 'Registration successful, but there was an issue with your profile. Please contact support.' });
+          } else {
+            // Both Auth and custom table insertion successful
+            setMessage({ type: 'success', text: 'Registration successful! Please check your email to confirm your account.' });
+            // Optionally, redirect to login or body.html after confirmation
+            // window.location.href = 'body.html'; // Only if confirmed immediately
+            // For now, just show alert and clear form
+            setName('');
+            setEmail('');
+            setPhone('');
+            setPassword('');
+            setConfirmPassword('');
+            setReferralCode('');
+            setAgreeTerms(false); // Clear terms agreement
+          }
+        }
       }
+    } catch (err) {
+      console.error('Authentication error:', err);
+      setMessage({ type: 'error', text: 'An unexpected error occurred during authentication.' });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const features = [
-    { icon: Shield, text: 'Bank-level encryption' },
-    { icon: Zap, text: 'Instant transactions' },
-    { icon: TrendingUp, text: 'Smart mining pools' },
-  ];
-
   return (
     <div className="auth-page">
-      <motion.div 
-        className="auth-background"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <div className="gradient-orb orb-1" />
-        <div className="gradient-orb orb-2" />
-        <div className="gradient-orb orb-3" />
-      </motion.div>
+      {/* Animated Background */}
+      <div className="animated-background">
+        {[...Array(15)].map((_, i) => (
+          <CoinIcon key={i} className="falling-coin" />
+        ))}
+      </div>
 
-      <motion.div 
-        className="auth-container"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <motion.div 
-          className="auth-header"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <h1 className="auth-title">
-            <span className="gradient-text">CrypNix</span>
-          </h1>
-          <p className="auth-subtitle">Next-Gen Crypto Mining Platform</p>
-        </motion.div>
-
-        <div className="features-grid">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className="feature-badge"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 + index * 0.1 }}
-            >
-              <feature.icon size={16} />
-              <span>{feature.text}</span>
-            </motion.div>
-          ))}
+      {/* Auth Container */}
+      <div className="auth-container">
+        {/* Header with Logo */}
+        <div className="auth-header">
+          <div className="logo-container">
+            <img src={logo} alt="CrypNix Logo" className="logo-image" />
+          </div>
+          <h1 className="app-title">CRYPNIX</h1>
+          <h2 className="subtitle">
+            {activeTab === 'login' ? 'Sign In to Your Account' : 'Create Your Trading Account'}
+          </h2>
         </div>
 
+        {/* Security Trust Elements */}
+        <div className="security-trust">
+          <p><span className="icon">🔒</span> Your data is secured with bank-level encryption</p>
+          <p><span className="icon">🔑</span> 2-Factor Authentication required for all accounts</p>
+          <p><span className="icon">🛡️</span> SSL Secured Connection</p>
+        </div>
+
+        {/* Tabs */}
         <div className="auth-tabs">
           <button
             className={`tab-button ${activeTab === 'login' ? 'active' : ''}`}
             onClick={() => handleTabSwitch('login')}
           >
-            Login
+            Sign In
           </button>
           <button
             className={`tab-button ${activeTab === 'register' ? 'active' : ''}`}
             onClick={() => handleTabSwitch('register')}
           >
-            Register
+            Sign Up
           </button>
-          <motion.div
-            className="tab-indicator"
-            animate={{ x: activeTab === 'login' ? 0 : '100%' }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          />
         </div>
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <AnimatePresence mode="wait">
-            {activeTab === 'register' ? (
-              <motion.div
-                key="register"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Input
-                  label="Full Name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
+        {/* Auth Form */}
+        <form className="auth-form" onSubmit={handleSubmit}>
+          {activeTab === 'register' && (
+            <>
+              <div className="input-group">
+                <label htmlFor="name">Full Name *</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Enter your full name"
-                  icon={User}
-                  error={errors.name}
+                  required
                 />
-                
-                <Input
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="your@email.com"
-                  icon={Mail}
-                  error={errors.email}
+              </div>
+            </>
+          )}
+          <div className="input-group">
+            <label htmlFor="email">{activeTab === 'login' ? 'Email Address *' : 'Email Address *'}</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={activeTab === 'login' ? "Enter your email" : "Enter your email address"}
+              required
+            />
+          </div>
+          {activeTab === 'register' && (
+            <>
+              <div className="input-group">
+                <label htmlFor="phone">Phone Number *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="(555) 123-4567"
+                  required
                 />
+              </div>
+            </>
+          )}
 
-                <div className="input-wrapper">
-                  <label className="input-label">Phone Number</label>
-                  <div className="phone-input-container">
-                    <Phone className="phone-icon" size={20} />
-                    <PhoneInput
-                      value={formData.phone}
-                      onChange={handlePhoneChange}
-                      defaultCountry="us"
-                      placeholder="Enter phone number"
-                    />
-                  </div>
-                  {errors.phone && (
-                    <p className="input-error-message">{errors.phone}</p>
-                  )}
-                </div>
-
-                <Input
-                  label="Password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Create a strong password"
-                  icon={Lock}
-                  error={errors.password}
-                  showPasswordToggle
-                  showPassword={showPassword}
-                  onTogglePassword={() => setShowPassword(!showPassword)}
-                />
-
-                <Input
-                  label="Confirm Password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm your password"
-                  icon={Lock}
-                  error={errors.confirmPassword}
-                  showPasswordToggle
-                  showPassword={showConfirmPassword}
-                  onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
-                />
-
-                <Input
-                  label="Referral Code (Optional)"
-                  name="referralCode"
-                  value={formData.referralCode}
-                  onChange={handleChange}
-                  placeholder="Enter referral code"
-                  icon={Gift}
-                />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="login"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
+          <div className="input-group">
+            <label htmlFor="password">{activeTab === 'login' ? 'Password *' : 'Password *'}</label>
+            <div className="password-input-container">
+              <input
+                type={showPassword ? 'text' : 'password'} // Toggle input type
+                id="password"
+                value={password}
+                onChange={handlePasswordChange} // Use updated handler
+                placeholder={activeTab === 'login' ? 'Enter your password' : 'Create a password'}
+                required
+              />
+              <div className="password-strength-indicator">
+                <span className={`strength ${passwordStrength.toLowerCase()}`}>{passwordStrength}</span>
+              </div>
+              <button
+                type="button"
+                className="toggle-password-button"
+                onClick={() => setShowPassword(!showPassword)} // Toggle state
               >
-                <Input
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="your@email.com"
-                  icon={Mail}
-                  error={errors.email}
-                />
+                {showPassword ? '👁️' : '👁️‍🗨️'} {/* Eye icons */}
+              </button>
+            </div>
+            <p className="password-requirements">• Must be 8+ characters with numbers & symbols</p>
+          </div>
 
-                <Input
-                  label="Password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  icon={Lock}
-                  error={errors.password}
-                  showPasswordToggle
-                  showPassword={showPassword}
-                  onTogglePassword={() => setShowPassword(!showPassword)}
+          {activeTab === 'register' && (
+            <>
+              <div className="input-group">
+                <label htmlFor="confirm-password">Confirm Password *</label>
+                <div className="password-input-container">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'} // Toggle input type
+                    id="confirm-password"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange} // Use updated handler
+                    placeholder="Confirm your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="toggle-password-button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle state
+                  >
+                    {showConfirmPassword ? '👁️' : '👁️‍🗨️'} {/* Eye icons */}
+                  </button>
+                </div>
+              </div>
+              <div className="input-group">
+                <label htmlFor="referral">Referral Code (Optional)</label>
+                <input
+                  type="text"
+                  id="referral"
+                  value={referralCode}
+                  onChange={(e) => setReferralCode(e.target.value)}
+                  placeholder="Enter referral code"
                 />
-              </motion.div>
+              </div>
+            </>
+          )}
+
+          {activeTab === 'register' && (
+            <div className="terms-group">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  required
+                />
+                <span className="checkmark"></span>
+                <span>I agree to <a href="#" target="_blank">Terms of Service</a> & <a href="#" target="_blank">Privacy Policy</a></span>
+              </label>
+              <p className="risk-warning">⚠️ Trading involves risk - only invest what you can afford to lose</p>
+            </div>
+          )}
+
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? (
+              <span className="loading-text">Processing...</span>
+            ) : activeTab === 'login' ? (
+              'Sign In'
+            ) : (
+              'Create Secure Account 🔐' // Updated button text
             )}
-          </AnimatePresence>
-
-          <Button type="submit" isLoading={loading}>
-            {activeTab === 'login' ? 'Sign In' : 'Create Account'}
-          </Button>
+          </button>
         </form>
 
-        <motion.p 
-          className="auth-footer"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          {activeTab === 'login' ? "Don't have an account? " : 'Already have an account? '}
-          <button
-            type="button"
-            className="auth-link"
-            onClick={() => handleTabSwitch(activeTab === 'login' ? 'register' : 'login')}
-          >
-            {activeTab === 'login' ? 'Sign up' : 'Sign in'}
-          </button>
-        </motion.p>
-      </motion.div>
+        {/* Trust Pilot Link */}
+        <div className="trustpilot-link">
+          <a href="" target="_blank" rel="noopener noreferrer">Leave a Review on Trustpilot</a>
+        </div>
 
-      {toast.message && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={closeToast}
-        />
-      )}
+        {/* Toast Message Display */}
+        {message.text && (
+          <div className={`toast ${message.type}`}>
+            {message.text}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
