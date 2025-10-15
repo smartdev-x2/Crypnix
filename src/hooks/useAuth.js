@@ -11,13 +11,19 @@ export const useAuth = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
+        mode: 'cors',
         body: JSON.stringify({
           action: 'login',
           email: credentials.email,
           password: credentials.password,
         }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const result = await response.json();
       
@@ -29,8 +35,14 @@ export const useAuth = () => {
         return { success: false, error: result.message };
       }
     } catch (error) {
-      setToast({ message: 'Network error. Please try again.', type: 'error' });
-      return { success: false, error: 'Network error' };
+      console.error('Login error:', error);
+      setToast({ 
+        message: error.message === 'Failed to fetch' 
+          ? 'Cannot connect to server. Please check your internet connection.' 
+          : 'Network error. Please try again.', 
+        type: 'error' 
+      });
+      return { success: false, error: error.message };
     } finally {
       setLoading(false);
     }
@@ -43,7 +55,9 @@ export const useAuth = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
+        mode: 'cors',
         body: JSON.stringify({
           action: 'register',
           name: userData.name,
@@ -53,6 +67,10 @@ export const useAuth = () => {
           ...(userData.referralCode && { referral: userData.referralCode }),
         }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const result = await response.json();
       
@@ -64,8 +82,14 @@ export const useAuth = () => {
         return { success: false, error: result.message };
       }
     } catch (error) {
-      setToast({ message: 'Network error. Please try again.', type: 'error' });
-      return { success: false, error: 'Network error' };
+      console.error('Registration error:', error);
+      setToast({ 
+        message: error.message === 'Failed to fetch' 
+          ? 'Cannot connect to server. Please check your internet connection.' 
+          : 'Network error. Please try again.', 
+        type: 'error' 
+      });
+      return { success: false, error: error.message };
     } finally {
       setLoading(false);
     }
