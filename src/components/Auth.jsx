@@ -5,6 +5,7 @@ import Toast from './ui/Toast';
 import logo from './assets/logo.png'
 import './particle';
 import './Background';
+import { useAuth } from '../hooks/useAuth';
 // SVG for the coin (example - you can use a more detailed one)
 const CoinIcon = ({ className }) => (
   <svg
