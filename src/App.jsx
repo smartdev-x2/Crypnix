@@ -1,6 +1,6 @@
 import React from 'react';
 import Auth from './components/Auth';
-import './App.css'; // Global styles can go here if needed, or in Auth.css
+import './components/Auth.css';
 
 function App() {
   return (

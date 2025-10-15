@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './Auth.css';
-import { useAuth } from '../hooks/useAuth';
+import './supabaseClient';
 import Toast from './ui/Toast';
 import logo from './assets/logo.png'
+import from './Particle';
+import from './Background' ;
 // SVG for the coin (example - you can use a more detailed one)
 const CoinIcon = ({ className }) => (
   <svg
