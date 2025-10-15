@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Particle.css'; // Create this file for particle-specific styles
+import './particle.css'; // Create this file for particle-specific styles
 
 const Particle = ({ x, y, size, color, speedX, speedY }) => {
   return (

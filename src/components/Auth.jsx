@@ -3,8 +3,8 @@ import './Auth.css';
 import './supabaseClient';
 import Toast from './ui/Toast';
 import logo from './assets/logo.png'
-import from './Particle';
-import from './Background' ;
+import './particle';
+import './Background';
 // SVG for the coin (example - you can use a more detailed one)
 const CoinIcon = ({ className }) => (
   <svg
