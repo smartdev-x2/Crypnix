@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Auth.css';
 import './supabaseClient';
 import Toast from './ui/Toast';
 import './particle';
-import './Background';
+import Background from '../background';
 import { useAuth } from '../hooks/useAuth';
 import { showPatchMessage } from './patch.js';
 
@@ -102,12 +102,8 @@ const Auth = () => {
 
   return (
     <div className="auth-page">
-      {/* Animated Background */}
-      <div className="animated-background">
-        {[...Array(15)].map((_, i) => (
-          <CoinIcon key={i} className="falling-coin" />
-        ))}
-      </div>
+      {/* Background Component */}
+      <Background />
 
       {/* Auth Container */}
       <div className="auth-container">
