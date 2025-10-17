@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
 import './Auth.css';
 import './supabaseClient';
 import Toast from './ui/Toast';
 import './particle';
 import Background from '../background';
-import { useAuth } from '../hooks/useAuth';
 import { showPatchMessage } from './patch.js';
 
 useEffect(() => {
