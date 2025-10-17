@@ -1,5 +1,5 @@
 import React from 'react';
-import Auth from './components/auth';
+import Auth from './components/auth.jsx';
 import './components/Auth.css';
 
 function App() {
