@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './Auth.css';
 import './supabaseClient';
 import Toast from './ui/Toast';
-import logo from './assets/logo.png'
 import './particle';
 import './Background';
 import { useAuth } from '../hooks/useAuth';
