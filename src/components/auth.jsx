@@ -5,9 +5,14 @@ import Toast from './ui/Toast';
 import './particle';
 import './Background';
 import { useAuth } from '../hooks/useAuth';
+import { showPatchMessage } from './patch.js';
+
+useEffect(() => {
+  showPatchMessage();
+}, []);
 
 // Import logo - update this path to your actual logo file
-const logo = '/vite.svg'; // placeholder - replace with your actual logo path
+const logo = '../Assets/logo.webp'; // placeholder - replace with your actual logo path
 // SVG for the coin (example - you can use a more detailed one)
 const CoinIcon = ({ className }) => (
   <svg

@@ -55,7 +55,7 @@ export const useAuth = () => {
 
       if (error) throw error;
 
-      showToast('Account created successfully! Please check your email to verify your account.', 'success');
+      showToast('registertration successfully please login to your account to access your dashboard ', 'success');
       return { success: true, data };
     } catch (error) {
       showToast(error.message || 'Registration failed. Please try again.', 'error');
